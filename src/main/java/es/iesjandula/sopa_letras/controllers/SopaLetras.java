@@ -45,33 +45,90 @@ public class SopaLetras
 	{
 		if (palabra == null || palabra.isEmpty())
 		{
-			throw new RuntimeException("Hay que introducir una palabra valida");
+			throw new RuntimeException("Hay que introducir una palabra válida");
 		}
 
 		if (coordenada == null || !coordenada.isCorrecta())
 		{
-			throw new RuntimeException("Hay que introducir una coordenada valida");
+			throw new RuntimeException("Hay que introducir una coordenada válida");
 		}
 
 		if (coordenada.isSentidoNatural())
 		{
-			if (palabra.length() + coordenada.getFila() > sopaletras.length)
+			if (palabra.length() + coordenada.getColumna() > sopaletras.length)
 			{
 				throw new RuntimeException("La palabra " + palabra + " tiene una tamaño " + palabra.length()
 						+ " mayor al tamaño de la tabla " + this.sopaletras.length + " en orden natural ");
 			}
+
+			for (int i = 0; i < palabra.length(); i++)
+			{
+				sopaletras[coordenada.getFila()][coordenada.getColumna() + i] = palabra.charAt(i);
+			}
+
 		} else
 		{
-			if (coordenada.getFila() - palabra.length() + 1 < 0)
+			if (coordenada.getColumna() - palabra.length() + 1 < 0)
 			{
 				throw new RuntimeException("La palabra " + palabra + " tiene una tamaño " + palabra.length()
 						+ " mayor que el minimo de la tabla en orden inverso");
 			}
-		}
-		for (int i = 0; i < palabra.charAt(i); i++)
-		{
 
+			for (int i = 0; i < palabra.length(); i++)
+			{
+				sopaletras[coordenada.getFila()][coordenada.getColumna() - i] = palabra.charAt(i);
+			}
 		}
+	}
+
+	/**
+	 * Coloca una palabra en sentido vertical
+	 * 
+	 * @param palabra    que se desea colocar
+	 * @param coordenada que se desea indicar
+	 */
+	public void colocarPalabraVertical(String palabra, Coordenadas coordenada)
+	{
+		if (palabra == null || palabra.isEmpty())
+		{
+			throw new RuntimeException("Hay que introducir una palabra válida");
+		}
+
+		if (coordenada == null || !coordenada.isCorrecta())
+		{
+			throw new RuntimeException("Hay que introducir una coordenada válida");
+		}
+
+		if (coordenada.isSentidoNatural())
+		{
+			// Sentido natural: de arriba hacia abajo
+			if (palabra.length() + coordenada.getFila() > sopaletras.length)
+			{
+				throw new RuntimeException("La palabra " + palabra + " tiene tamaño " + palabra.length()
+						+ " y no cabe en la tabla de tamaño " + this.sopaletras.length + " desde la fila "
+						+ coordenada.getFila() + " en sentido natural");
+			}
+
+			for (int i = 0; i < palabra.length(); i++)
+			{
+				sopaletras[coordenada.getFila() + i][coordenada.getColumna()] = palabra.charAt(i);
+			}
+		} else
+		{
+			// Sentido inverso: de abajo hacia arriba
+			if (coordenada.getFila() - palabra.length() + 1 < 0)
+			{
+				throw new RuntimeException("La palabra " + palabra + " tiene tamaño " + palabra.length()
+						+ " y no cabe en la tabla de tamaño " + this.sopaletras.length + " desde la fila "
+						+ coordenada.getFila() + " en sentido inverso");
+			}
+
+			for (int i = 0; i < palabra.length(); i++)
+			{
+				sopaletras[coordenada.getFila() - i][coordenada.getColumna()] = palabra.charAt(i);
+			}
+		}
+
 	}
 
 	public void imprimir()
@@ -80,7 +137,7 @@ public class SopaLetras
 		{
 			for (int j = 0; j < sopaletras[i].length; j++)
 			{
-				System.out.print(sopaletras[i][j] + "");
+				System.out.print(sopaletras[i][j] + " ");
 			}
 			System.out.println();
 		}

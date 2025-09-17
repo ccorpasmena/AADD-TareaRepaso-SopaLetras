@@ -9,8 +9,9 @@ public class Main
 	public static void main(String[] args)
 	{
 
-		SopaLetras sopa = new SopaLetras(10);
-		sopa.colocarPalabraHorizontal("mon", new Coordenadas(0, 0, true));
+		SopaLetras sopa = new SopaLetras(5);
+		// sopa.colocarPalabraHorizontal("hola", new Coordenadas(0, 0, true));
+		sopa.colocarPalabraVertical("hola", new Coordenadas(0, 2, true));
 		sopa.imprimir();
 
 	}
